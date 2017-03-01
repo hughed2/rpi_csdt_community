@@ -16,6 +16,7 @@ User = get_user_model()
 from time import sleep
 import sys
 import pprint
+import io
 
 class ProjectTests(LiveServerTestCase):
     fixtures = ['default.json']
@@ -43,7 +44,7 @@ class ProjectTests(LiveServerTestCase):
 
         # Try uploading the screenshot
         image_id = -1
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             response = self.client.put(reverse('file-create'), {'file':f})
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             image_id = response.data['id']
@@ -80,7 +81,7 @@ class ProjectTests(LiveServerTestCase):
         screenshot_file = settings.PROJECT_ROOT + '/samples/CC/CC-Default.png'
         url = reverse('file-create')
 
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             self.client.login(username='test', password='test')
             response = self.client.put(url, {'file': f})
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -94,7 +95,7 @@ class ProjectTests(LiveServerTestCase):
         screenshot_file = settings.PROJECT_ROOT + '/samples/CC/CC-Default.png'
         url = reverse('file-create')
 
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             response = self.client.put(url, {'file': f})
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
@@ -109,7 +110,7 @@ class ProjectTests(LiveServerTestCase):
 
         # Try uploading the screenshot
         image_id = -1
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             response = self.client.put(reverse('file-create'), {'file':f})
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             image_id = response.data['id']
@@ -173,7 +174,7 @@ class ProjectTests(LiveServerTestCase):
 
         # Try uploading the screenshot
         image_id = -1
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             response = self.client.put(reverse('file-create'), {'file':f})
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             image_id = response.data['id']
@@ -362,7 +363,7 @@ class ProjectTests(LiveServerTestCase):
 
         # Try uploading the screenshot
         image_id = -1
-        with open(screenshot_file) as f:
+        with io.open(screenshot_file, "rb") as f:
             response = self.client.put(reverse('file-create'), {'file':f})
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             image_id = response.data['id']
